@@ -3,6 +3,9 @@ package com.informatorio.java.mapper;
 import com.informatorio.java.dto.UsuarioDTO;
 import com.informatorio.java.model.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UsuarioMapper {
 
 
@@ -30,6 +33,14 @@ public class UsuarioMapper {
         usuario.setListasDeReproduccion(listaReproduccionMapper.mapToListasDeReproduccion(usuarioDTO.getListasReproduccionDTO())); // TODO: crear metodo mapToListasReproduccion
 
         return usuario;
+    }
+
+    public List<UsuarioDTO> mapToListaUsuariosDTO(List<Usuario> listaUsuarios){
+        List<UsuarioDTO> listaUsuariosDTO = new ArrayList<>();
+        for(Usuario usuario : listaUsuarios){
+            listaUsuariosDTO.add(mapToUsuarioDTO(usuario));
+        }
+        return listaUsuariosDTO;
     }
 
 

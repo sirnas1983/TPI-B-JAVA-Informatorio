@@ -3,6 +3,10 @@ package com.informatorio.java.mapper;
 import com.informatorio.java.dto.ArtistaDTO;
 import com.informatorio.java.model.Artista;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class ArtistaMapper {
 
     public Artista mapToArtista(ArtistaDTO artistaDTO){
@@ -27,6 +31,14 @@ public class ArtistaMapper {
         artistaDTO.setCancionesDTO(cancionMapper.mapToListaCancionesDTO(artista.getCanciones()));
 
         return artistaDTO;
+    }
+
+    public List<ArtistaDTO> mapToListaArtistasDTO(List<Artista> listaArtistas){
+        List<ArtistaDTO> listaArtistasDTO = new ArrayList<>();
+        for (Artista artista : listaArtistas){
+            listaArtistasDTO.add(mapToArtistaDTO(artista));
+        }
+        return listaArtistasDTO;
     }
 
 
