@@ -20,7 +20,6 @@ public class ListaReproduccionMapper {
         listaReproduccion.setAleatorio(listaReproduccionDTO.isAleatorio());
         listaReproduccion.setPublica(listaReproduccionDTO.isPublica());
         listaReproduccion.setRepetir(listaReproduccionDTO.isRepetir());
-        listaReproduccion.setUsuario(usuarioMapper.mapToUsuario(listaReproduccionDTO.getUsuario()));
         listaReproduccion.setCanciones(cancionMapper.mapToListaCanciones(listaReproduccionDTO.getCanciones()));
 
         return listaReproduccion;
@@ -37,7 +36,6 @@ public class ListaReproduccionMapper {
         listaReproduccionDTO.setAleatorio(listaReproduccion.getAleatorio());
         listaReproduccionDTO.setPublica(listaReproduccion.getPublica());
         listaReproduccionDTO.setRepetir(listaReproduccion.getRepetir());
-        listaReproduccionDTO.setUsuario(usuarioMapper.mapToUsuarioDTO(listaReproduccion.getUsuario()));
         listaReproduccionDTO.setCanciones(cancionMapper.mapToListaCancionesDTO(listaReproduccion.getCanciones()));
 
         return listaReproduccionDTO;
