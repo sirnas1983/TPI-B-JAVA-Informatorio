@@ -20,6 +20,7 @@ public class ListaReproduccionDTO {
     private boolean publica;
     private Auditor auditor;
     private List<CancionDTO> canciones;
+    private int cantCanciones = this.canciones.size();
 
 
 

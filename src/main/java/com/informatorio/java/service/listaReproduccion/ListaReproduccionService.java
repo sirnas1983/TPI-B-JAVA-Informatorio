@@ -1,6 +1,7 @@
 package com.informatorio.java.service.listaReproduccion;
 
 import com.informatorio.java.dto.ListaReproduccionDTO;
+import com.informatorio.java.model.Cancion;
 import com.informatorio.java.model.ListaReproduccion;
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +13,7 @@ public interface ListaReproduccionService {
     void modificar(ListaReproduccionDTO listaReproduccionDTO);
     void cargar(ListaReproduccionDTO listaReproduccionDTO);
     void eliminar(ListaReproduccionDTO listaReproduccionDTO);
+    List<ListaReproduccionDTO> traerListasUsuario(String usuarioId);
+    void nuevaLista(String nombre, List<Cancion> listaCanciones);
+    void modificarListaReproduccion(String idListaReproduccion, String idCancion);
 }
