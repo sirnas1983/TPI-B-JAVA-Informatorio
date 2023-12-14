@@ -1,8 +1,6 @@
 package com.informatorio.java.service.listaReproduccion;
 
-import com.informatorio.java.dto.CancionDTO;
 import com.informatorio.java.dto.ListaReproduccionDTO;
-import com.informatorio.java.dto.UsuarioDTO;
 import com.informatorio.java.mapper.ListaReproduccionMapper;
 import com.informatorio.java.model.Auditor;
 import com.informatorio.java.model.Cancion;
@@ -18,6 +16,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static java.util.Objects.isNull;
+
 @Service
 public class ListaReproduccionServiceImpl implements ListaReproduccionService{
 
@@ -34,10 +35,7 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
     @Override
     public ListaReproduccionDTO traerPorId(String id) {
         Optional<ListaReproduccion> listaReproduccion = listaReproduccionRepository.findById(id);
-        if(listaReproduccion.isPresent()){
-            return listaReproduccionMapper.mapToListaDeReproduccionDTO(listaReproduccion.get());
-        }
-        return null;
+        return listaReproduccion.map(reproduccion -> listaReproduccionMapper.mapToListaDeReproduccionDTO(reproduccion)).orElse(null);
     }
 
     @Override
@@ -64,11 +62,26 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
     public List<ListaReproduccionDTO> traerListasUsuario(String usuarioId) {
 
         Optional<Usuario> usuario =  usuarioRepository.findById(usuarioId);
-        if(usuario.isPresent()){
-            return listaReproduccionMapper.mapToListasDeReproduccionDTO(usuario.get().getListasDeReproduccion());
-        }
+        return usuario.map(value -> listaReproduccionMapper.mapToListasDeReproduccionDTO(value.getListasDeReproduccion())).orElse(null);
 
-        return null;
+    }
+
+    @Override
+    public void modificarEstadoListaReproduccion(String id, Boolean aleatorio, Boolean publica, Boolean repetir) {
+
+        Optional<ListaReproduccion> listaReproduccion = listaReproduccionRepository.findById(id);
+        if (listaReproduccion.isPresent()){
+            if(!isNull(aleatorio)){
+                listaReproduccion.get().setAleatorio(aleatorio);
+            }
+            if(!isNull(publica)){
+                listaReproduccion.get().setPublica(publica);
+            }
+            if(!isNull(repetir)){
+                listaReproduccion.get().setRepetir(repetir);
+            }
+            listaReproduccionRepository.save(listaReproduccion.get());
+        }
     }
 
     @Override

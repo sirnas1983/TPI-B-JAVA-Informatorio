@@ -14,6 +14,7 @@ public interface ListaReproduccionService {
     void cargar(ListaReproduccionDTO listaReproduccionDTO);
     void eliminar(ListaReproduccionDTO listaReproduccionDTO);
     List<ListaReproduccionDTO> traerListasUsuario(String usuarioId);
+    void modificarEstadoListaReproduccion(String id, Boolean isAleatorio, Boolean isRepetir, Boolean isPublica);
     void nuevaLista(String nombre, List<Cancion> listaCanciones);
     void modificarListaReproduccion(String idListaReproduccion, String idCancion);
 }

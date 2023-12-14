@@ -3,8 +3,10 @@ package com.informatorio.java.controller;
 
 import com.informatorio.java.constants.ConstantsUtils;
 import com.informatorio.java.dto.ListaReproduccionDTO;
+import com.informatorio.java.dto.ListaReproduccionStatusDTO;
 import com.informatorio.java.dto.RespuestaDTO;
 import com.informatorio.java.model.Cancion;
+import com.informatorio.java.model.ListaReproduccion;
 import com.informatorio.java.service.listaReproduccion.ListaReproduccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /*
-HECHO: Se debe permitir listar las listas de reproducción de un usuario indicando su id. El listado debe estar ordenado por fecha de creación.
-HECHO: Se debe permitir listar las canciones de la lista de reproducción. Indicando con el id la lista de reproducción.
-HECHO: Se debe permitir crear una lista de reproducción pasando un listado de canciones y nombre.
+Se debe permitir listar las listas de reproducción de un usuario indicando su id. El listado debe estar ordenado por fecha de creación.
+Se debe permitir listar las canciones de la lista de reproducción. Indicando con el id la lista de reproducción.
+Se debe permitir crear una lista de reproducción pasando un listado de canciones y nombre.
 Se debe permitir indicar si la playlist es pública, si se puede repetir la lista al finalizar y si esta se puede reproducir aleatoriamente.
 Se debe permitir eliminar y/o agregar canciones a la lista, indicando id de la lista de reproducción e id de la canción.
 */
@@ -30,6 +32,7 @@ public class ListaReproduccionController {
     ListaReproduccionService listaReproduccionService;
 
 
+    // HECHO: Se debe permitir crear una lista de reproducción pasando un listado de canciones y nombre.
     @PostMapping
     public ResponseEntity<RespuestaDTO> crearListaReproduccion(@RequestParam String nombre, @RequestBody List<Cancion> listaCanciones){
 
@@ -50,6 +53,7 @@ public class ListaReproduccionController {
                 .body(listasReproduccionDTOS);
     }
 
+    // HECHO: Se debe permitir listar las canciones de la lista de reproducción. Indicando con el id la lista de reproducción.
     @GetMapping("/{idListaReproduccion}")
     public ResponseEntity<ListaReproduccionDTO> getListaReproduccionPorID(@PathVariable(name = "idListaReproduccion") String id){
 
@@ -59,6 +63,7 @@ public class ListaReproduccionController {
                 .body(listaReproduccionDTO);
     }
 
+    // TODO: -Falta ordenar lista- Se debe permitir listar las listas de reproducción de un usuario indicando su id. El listado debe estar ordenado por fecha de creación.
     @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<List<ListaReproduccionDTO>> getListaReproduccionUsuario(@PathVariable(name = "idUsuario") String idUsuario) {
 
@@ -69,6 +74,24 @@ public class ListaReproduccionController {
                  .body(listasReproduccionDTO);
     }
 
+    // HECHO: Se debe permitir indicar si la playlist es pública, si se puede repetir la lista al finalizar y si esta se puede reproducir aleatoriamente.
+    @PutMapping("/{idListaReproduccion}")
+    public ResponseEntity<RespuestaDTO> modificarEstadoListaReproduccion(
+            @PathVariable(name = "idListaReproduccion") String idListaReproduccion,
+            @RequestParam(name = "aleatorio", required = false) boolean aleatorio,
+            @RequestParam(name = "repetir", required = false) boolean repetir,
+            @RequestParam(name = "publica", required = false) boolean publica){
+
+        listaReproduccionService.modificarEstadoListaReproduccion(
+                idListaReproduccion, aleatorio,  publica, repetir
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new RespuestaDTO(ConstantsUtils.STATUS_201,ConstantsUtils.MESSAGE_201));
+    }
+
+    // HECHO: Se debe permitir eliminar y/o agregar canciones a la lista, indicando id de la lista de reproducción e id de la canción.
     @PutMapping("/{idListaReproduccion}/{idCancion}")
     public ResponseEntity<RespuestaDTO> modificarListaReproduccion(
             @PathVariable(name = "idListaReproduccion") String idListaReproduccion,
