@@ -1,10 +1,13 @@
-package com.informatorio.java.dto;
+package com.informatorio.java.dto.listaReproduccion;
 
+import com.informatorio.java.dto.CancionDTO;
 import com.informatorio.java.model.Auditor;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,12 +17,8 @@ public class ListaReproduccionDTO {
 
     private String id;
     private String nombre;
-    private UsuarioDTO usuario;
-    private boolean aleatorio;
-    private boolean repetir;
-    private boolean publica;
-    private Auditor auditor;
-    private List<CancionDTO> canciones;
+
+    private List<CancionDTO> canciones = new ArrayList<>();
     private int cantCanciones = this.canciones.size();
 
 

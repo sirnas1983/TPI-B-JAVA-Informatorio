@@ -12,5 +12,4 @@ public class GeneroDTO {
     private String id;
     private String nombre;
 
-
 }

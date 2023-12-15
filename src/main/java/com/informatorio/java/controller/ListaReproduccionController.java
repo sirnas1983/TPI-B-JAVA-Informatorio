@@ -2,11 +2,8 @@ package com.informatorio.java.controller;
 
 
 import com.informatorio.java.constants.ConstantsUtils;
-import com.informatorio.java.dto.ListaReproduccionDTO;
-import com.informatorio.java.dto.ListaReproduccionStatusDTO;
+import com.informatorio.java.dto.listaReproduccion.ListaReproduccionDTO;
 import com.informatorio.java.dto.RespuestaDTO;
-import com.informatorio.java.model.Cancion;
-import com.informatorio.java.model.ListaReproduccion;
 import com.informatorio.java.service.listaReproduccion.ListaReproduccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,14 +30,16 @@ public class ListaReproduccionController {
 
 
     // HECHO: Se debe permitir crear una lista de reproducción pasando un listado de canciones y nombre.
-    @PostMapping
-    public ResponseEntity<RespuestaDTO> crearListaReproduccion(@RequestParam String nombre, @RequestBody List<Cancion> listaCanciones){
+    @PostMapping("/usuario/{idUsuario}")
+    @ResponseBody
+    public void crearListaReproduccion(
+            @RequestParam String nombre,
+            @RequestBody List<String> listaIdCanciones,
+            @PathVariable(name = "idUsuario") String idUsuario){
 
-        listaReproduccionService.nuevaLista(nombre, listaCanciones);
+        listaReproduccionService.nuevaLista(nombre, listaIdCanciones, idUsuario);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new RespuestaDTO(ConstantsUtils.STATUS_201,ConstantsUtils.MESSAGE_201));
+
     }
 
     @GetMapping
@@ -76,7 +75,8 @@ public class ListaReproduccionController {
 
     // HECHO: Se debe permitir indicar si la playlist es pública, si se puede repetir la lista al finalizar y si esta se puede reproducir aleatoriamente.
     @PutMapping("/{idListaReproduccion}")
-    public ResponseEntity<RespuestaDTO> modificarEstadoListaReproduccion(
+    @ResponseBody
+    public void modificarEstadoListaReproduccion(
             @PathVariable(name = "idListaReproduccion") String idListaReproduccion,
             @RequestParam(name = "aleatorio", required = false) boolean aleatorio,
             @RequestParam(name = "repetir", required = false) boolean repetir,
@@ -85,10 +85,6 @@ public class ListaReproduccionController {
         listaReproduccionService.modificarEstadoListaReproduccion(
                 idListaReproduccion, aleatorio,  publica, repetir
         );
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new RespuestaDTO(ConstantsUtils.STATUS_201,ConstantsUtils.MESSAGE_201));
     }
 
     // HECHO: Se debe permitir eliminar y/o agregar canciones a la lista, indicando id de la lista de reproducción e id de la canción.

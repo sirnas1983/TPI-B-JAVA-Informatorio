@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +25,7 @@ public class ListaReproduccion extends EntidadMusical{
     @JoinTable(name = "cancion_lista_reproduccion",
             joinColumns = {@JoinColumn(name = "cancion_id")},
             inverseJoinColumns = {@JoinColumn(name = "listareproduccion_id")})
-    private List<Cancion> canciones;
+    private List<Cancion> canciones = new ArrayList<>();
 
     private Boolean aleatorio;
 
@@ -31,7 +33,8 @@ public class ListaReproduccion extends EntidadMusical{
 
     private Boolean publica;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,
+              cascade = CascadeType.ALL)
     @JoinColumn(name = "id_auditor")
     private Auditor auditor;
 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,12 @@ import java.util.List;
 @Setter
 public class Genero extends EntidadMusical{
 
+    public Genero(String nombre){
+        this.nombre = nombre;
+    }
+
     @ManyToMany(mappedBy = "generos")
-    private List<Cancion> canciones;
+    private List<Cancion> canciones = new ArrayList<>();
+
 
 }

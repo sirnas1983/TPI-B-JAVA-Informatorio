@@ -1,6 +1,6 @@
 package com.informatorio.java.service.listaReproduccion;
 
-import com.informatorio.java.dto.ListaReproduccionDTO;
+import com.informatorio.java.dto.listaReproduccion.ListaReproduccionDTO;
 import com.informatorio.java.mapper.ListaReproduccionMapper;
 import com.informatorio.java.model.Auditor;
 import com.informatorio.java.model.Cancion;
@@ -80,25 +80,31 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
             if(!isNull(repetir)){
                 listaReproduccion.get().setRepetir(repetir);
             }
+            if(!isNull(aleatorio) || !isNull(publica) || !isNull(repetir)){
+                listaReproduccion.get().getAuditor().setFechaModificacion(LocalDate.now());
+            }
             listaReproduccionRepository.save(listaReproduccion.get());
         }
     }
 
     @Override
-    public void nuevaLista(String nombre, List<Cancion> listaCanciones) {
+    public void nuevaLista(String nombre, List<String> listaIdCanciones, String idUsuario) {
 
-        ListaReproduccion listaReproduccion = new ListaReproduccion();
-        listaReproduccion.setCanciones(listaCanciones);
-        listaReproduccion.setNombre(nombre);
-        listaReproduccion.setPublica(false);
-        listaReproduccion.setAleatorio(false);
-        listaReproduccion.setRepetir(false);
-        Auditor auditor = new Auditor();
-        auditor.setFechaRegistro(LocalDate.now());
-        auditor.setFechaModificacion(LocalDate.now());
-        listaReproduccion.setAuditor(auditor);
-        listaReproduccionRepository.save(listaReproduccion);
-
+        Optional<Usuario> usuario =  usuarioRepository.findById(idUsuario);
+        if(usuario.isPresent()){
+            ListaReproduccion listaReproduccion = new ListaReproduccion();
+            listaReproduccion.setCanciones(cancionRepository.findAllById(listaIdCanciones));
+            listaReproduccion.setUsuario(usuario.get());
+            listaReproduccion.setNombre(nombre);
+            listaReproduccion.setPublica(false);
+            listaReproduccion.setAleatorio(false);
+            listaReproduccion.setRepetir(false);
+            Auditor auditor = new Auditor();
+            auditor.setFechaRegistro(LocalDate.now());
+            auditor.setFechaModificacion(LocalDate.now());
+            listaReproduccion.setAuditor(auditor);
+            listaReproduccionRepository.save(listaReproduccion);
+        }
     }
 
     @Override

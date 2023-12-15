@@ -2,11 +2,14 @@ package com.informatorio.java.mapper;
 
 import com.informatorio.java.dto.ArtistaDTO;
 import com.informatorio.java.model.Artista;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 public class ArtistaMapper {
 
     public Artista mapToArtista(ArtistaDTO artistaDTO){
@@ -16,7 +19,6 @@ public class ArtistaMapper {
         Artista artista = new Artista();
         artista.setId(artistaDTO.getId());
         artista.setNombre(artistaDTO.getNombre());
-        artista.setCanciones(cancionMapper.mapToListaCanciones(artistaDTO.getCancionesDTO()));
 
         return artista;
     }
@@ -28,7 +30,6 @@ public class ArtistaMapper {
         ArtistaDTO artistaDTO = new ArtistaDTO();
         artistaDTO.setId(artista.getId());
         artistaDTO.setNombre(artista.getNombre());
-        artistaDTO.setCancionesDTO(cancionMapper.mapToListaCancionesDTO(artista.getCanciones()));
 
         return artistaDTO;
     }

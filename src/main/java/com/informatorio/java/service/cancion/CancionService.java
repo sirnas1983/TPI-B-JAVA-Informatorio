@@ -13,4 +13,6 @@ public interface CancionService {
     void modificar(CancionDTO cancionDTO);
     void cargar(CancionDTO cancionDTO);
     void eliminar(CancionDTO cancionDTO);
+
+    List<Cancion> traerCancionesPorId(List<String> listaIdCanciones);
 }

@@ -12,7 +12,7 @@ public abstract class EntidadMusical {
     @GeneratedValue(strategy = GenerationType.UUID)
     protected String id;
 
-    @Column
+    @Column(unique = true)
     protected String nombre;
 
 

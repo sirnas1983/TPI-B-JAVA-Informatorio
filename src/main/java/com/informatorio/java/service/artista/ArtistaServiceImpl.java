@@ -49,4 +49,9 @@ public class ArtistaServiceImpl implements ArtistaService{
         artistaRepository.delete(artistaMapper.mapToArtista(artistaDTO));
     }
 
+    @Override
+    public Optional<Artista> buscarPorNombre(String nombre) {
+        return Optional.ofNullable(artistaRepository.getArtistaPorNombre(nombre));
+    }
+
 }

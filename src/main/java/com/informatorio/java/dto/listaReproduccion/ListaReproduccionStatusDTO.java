@@ -1,4 +1,4 @@
-package com.informatorio.java.dto;
+package com.informatorio.java.dto.listaReproduccion;
 
 import com.informatorio.java.model.Auditor;
 import lombok.Getter;
@@ -17,10 +17,4 @@ public class ListaReproduccionStatusDTO {
     private boolean aleatorio;
     private boolean repetir;
     private boolean publica;
-    private Auditor auditor;
-
-
-
-
-
 }

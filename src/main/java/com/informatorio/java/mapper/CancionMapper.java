@@ -3,10 +3,12 @@ package com.informatorio.java.mapper;
 import com.informatorio.java.dto.CancionDTO;
 import com.informatorio.java.model.Cancion;
 import com.informatorio.java.model.Genero;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CancionMapper {
 
 
@@ -20,6 +22,7 @@ public class CancionMapper {
         cancionDTO.setNombre(cancion.getNombre());
         cancionDTO.setRanking(cancion.getRanking());
         cancionDTO.setDuracion(cancion.getDuracion());
+        cancionDTO.setAlbum(cancion.getAlbum());
         cancionDTO.setArtistaDTO(artistaMapper.mapToArtistaDTO(cancion.getArtista()));
         cancionDTO.setGenerosDTO(generoMapper.mapToListaGenerosDTO(cancion.getGeneros()));
 

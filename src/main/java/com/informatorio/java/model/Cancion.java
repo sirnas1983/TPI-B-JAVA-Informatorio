@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,9 +27,9 @@ public class Cancion extends EntidadMusical{
             name = "genero_cancion",
             joinColumns = {@JoinColumn(name = "genero_id")},
             inverseJoinColumns = {@JoinColumn(name = "cancion_id")}    )
-    private List<Genero> generos;
+    private List<Genero> generos = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "artista_id")
     private Artista artista;
 

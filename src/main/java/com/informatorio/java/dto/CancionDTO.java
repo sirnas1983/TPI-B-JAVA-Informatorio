@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,7 +17,8 @@ public class CancionDTO {
     private int ranking;
     private float duracion;
     private ArtistaDTO artistaDTO;
-    private List<GeneroDTO> generosDTO;
+    private String album;
+    private List<GeneroDTO> generosDTO = new ArrayList<>();
 
 
 }

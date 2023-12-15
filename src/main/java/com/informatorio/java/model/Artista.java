@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @AllArgsConstructor
@@ -19,6 +20,6 @@ public class Artista extends EntidadMusical{
     @OneToMany(mappedBy ="artista",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<Cancion> canciones;
+    private List<Cancion> canciones = new ArrayList<>();
 
 }

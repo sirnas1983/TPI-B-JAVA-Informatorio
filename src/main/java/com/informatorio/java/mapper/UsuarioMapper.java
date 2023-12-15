@@ -2,10 +2,13 @@ package com.informatorio.java.mapper;
 
 import com.informatorio.java.dto.UsuarioDTO;
 import com.informatorio.java.model.Usuario;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Service
 public class UsuarioMapper {
 
 
@@ -16,7 +19,7 @@ public class UsuarioMapper {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setId(usuario.getId());
         usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
         usuarioDTO.setListasReproduccionDTO(listaReproduccionMapper.mapToListasDeReproduccionDTO(usuario.getListasDeReproduccion())); // TODO: crear metodo mapToListasReproduccionDTO
 
         return usuarioDTO;

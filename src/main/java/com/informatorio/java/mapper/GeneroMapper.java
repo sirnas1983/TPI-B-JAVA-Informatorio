@@ -2,10 +2,12 @@ package com.informatorio.java.mapper;
 
 import com.informatorio.java.dto.GeneroDTO;
 import com.informatorio.java.model.Genero;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class GeneroMapper {
 
     public GeneroDTO mapToGeneroDTO(Genero genero){
