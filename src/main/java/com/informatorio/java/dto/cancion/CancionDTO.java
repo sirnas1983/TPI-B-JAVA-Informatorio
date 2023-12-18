@@ -1,5 +1,7 @@
-package com.informatorio.java.dto;
+package com.informatorio.java.dto.cancion;
 
+import com.informatorio.java.dto.genero.GeneroDTO;
+import com.informatorio.java.dto.artista.ArtistaDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

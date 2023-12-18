@@ -1,27 +1,18 @@
 package com.informatorio.java.dto.listaReproduccion;
 
-import com.informatorio.java.dto.CancionDTO;
-import com.informatorio.java.model.Auditor;
-
+import com.informatorio.java.dto.cancion.CancionDTO;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-@Setter
-@Getter
+@Getter @Setter
 public class ListaReproduccionDTO {
 
     private String id;
     private String nombre;
-
-    private List<CancionDTO> canciones = new ArrayList<>();
-    private int cantCanciones = this.canciones.size();
-
-
-
+    private List<CancionDTO> listaCancionesDTO;
 
 }

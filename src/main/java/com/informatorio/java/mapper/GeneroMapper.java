@@ -1,6 +1,6 @@
 package com.informatorio.java.mapper;
 
-import com.informatorio.java.dto.GeneroDTO;
+import com.informatorio.java.dto.genero.GeneroDTO;
 import com.informatorio.java.model.Genero;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class GeneroMapper {
 
-    public GeneroDTO mapToGeneroDTO(Genero genero){
+    public static GeneroDTO mapToGeneroDTO(Genero genero){
 
         GeneroDTO generoDTO = new GeneroDTO();
         generoDTO.setId(genero.getId());
@@ -19,7 +19,7 @@ public class GeneroMapper {
         return generoDTO;
     }
 
-    public Genero mapToGenero(GeneroDTO generoDTO){
+    public static Genero mapToGenero(GeneroDTO generoDTO){
 
         Genero genero = new Genero();
         genero.setId(generoDTO.getId());
@@ -29,7 +29,7 @@ public class GeneroMapper {
     }
 
 
-    public List<GeneroDTO> mapToListaGenerosDTO(List<Genero> listaGeneros){
+    public static List<GeneroDTO> mapToListaGenerosDTO(List<Genero> listaGeneros){
         List<GeneroDTO> listaGenerosDTO = new ArrayList<>();
 
         for (Genero genero : listaGeneros){
@@ -38,7 +38,7 @@ public class GeneroMapper {
          return listaGenerosDTO;
     }
 
-    public List<Genero> mapToListaGeneros(List<GeneroDTO> listaGenerosDTO){
+    public static List<Genero> mapToListaGeneros(List<GeneroDTO> listaGenerosDTO){
         List<Genero> listaGeneros = new ArrayList<>();
 
         for (GeneroDTO generoDTO : listaGenerosDTO){

@@ -1,8 +1,7 @@
 package com.informatorio.java.mapper;
 
-import com.informatorio.java.dto.CancionDTO;
+import com.informatorio.java.dto.cancion.CancionDTO;
 import com.informatorio.java.model.Cancion;
-import com.informatorio.java.model.Genero;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.List;
 public class CancionMapper {
 
 
-    public CancionDTO mapToCancionDTO(Cancion cancion){
+    public static CancionDTO mapToCancionDTO(Cancion cancion){
 
         ArtistaMapper artistaMapper = new ArtistaMapper();
         GeneroMapper generoMapper = new GeneroMapper();
@@ -29,7 +28,7 @@ public class CancionMapper {
         return cancionDTO;
     }
 
-    public Cancion mapToCancion(CancionDTO cancionDTO){
+    public static Cancion mapToCancion(CancionDTO cancionDTO){
 
         Cancion cancion = new Cancion();
         ArtistaMapper artistaMapper = new ArtistaMapper();
@@ -46,7 +45,7 @@ public class CancionMapper {
         return cancion;
     }
 
-    public List<Cancion> mapToListaCanciones(List<CancionDTO> listaCancionesDTO){
+    public static List<Cancion> mapToListaCanciones(List<CancionDTO> listaCancionesDTO){
         List<Cancion> listaCanciones = new ArrayList<>();
         for (CancionDTO cancionDTO : listaCancionesDTO){
             listaCanciones.add(mapToCancion(cancionDTO));
@@ -54,7 +53,7 @@ public class CancionMapper {
         return listaCanciones;
     }
 
-    public List<CancionDTO> mapToListaCancionesDTO(List<Cancion> listaCanciones){
+    public static List<CancionDTO> mapToListaCancionesDTO(List<Cancion> listaCanciones){
         List<CancionDTO> listaCancionesDTO = new ArrayList<>();
         for (Cancion cancion: listaCanciones){
             listaCancionesDTO.add(mapToCancionDTO(cancion));

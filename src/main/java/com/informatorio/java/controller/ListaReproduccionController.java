@@ -3,7 +3,8 @@ package com.informatorio.java.controller;
 
 import com.informatorio.java.constants.ConstantsUtils;
 import com.informatorio.java.dto.listaReproduccion.ListaReproduccionDTO;
-import com.informatorio.java.dto.RespuestaDTO;
+import com.informatorio.java.dto.listaReproduccion.ListaReproduccionUsuarioDTO;
+import com.informatorio.java.dto.response.RespuestaDTO;
 import com.informatorio.java.service.listaReproduccion.ListaReproduccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/*
-Se debe permitir listar las listas de reproducción de un usuario indicando su id. El listado debe estar ordenado por fecha de creación.
-Se debe permitir listar las canciones de la lista de reproducción. Indicando con el id la lista de reproducción.
-Se debe permitir crear una lista de reproducción pasando un listado de canciones y nombre.
-Se debe permitir indicar si la playlist es pública, si se puede repetir la lista al finalizar y si esta se puede reproducir aleatoriamente.
-Se debe permitir eliminar y/o agregar canciones a la lista, indicando id de la lista de reproducción e id de la canción.
-*/
-
 @RestController
 @RequestMapping(value = "/api/v1/listas-reproduccion", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class ListaReproduccionController {
@@ -28,75 +21,77 @@ public class ListaReproduccionController {
     @Autowired
     ListaReproduccionService listaReproduccionService;
 
-
-    // HECHO: Se debe permitir crear una lista de reproducción pasando un listado de canciones y nombre.
+    //Solicitado
     @PostMapping("/usuario/{idUsuario}")
-    @ResponseBody
-    public void crearListaReproduccion(
+
+    public ResponseEntity<RespuestaDTO> crearListaReproduccion(
             @RequestParam String nombre,
             @RequestBody List<String> listaIdCanciones,
             @PathVariable(name = "idUsuario") String idUsuario){
 
-        listaReproduccionService.nuevaLista(nombre, listaIdCanciones, idUsuario);
+        boolean operacionExitosa =  listaReproduccionService.nuevaLista(nombre, listaIdCanciones, idUsuario);
 
+        if (operacionExitosa){
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new RespuestaDTO(ConstantsUtils.STATUS_201, ConstantsUtils.MESSAGE_201));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new RespuestaDTO(ConstantsUtils.STATUS_500, ConstantsUtils.MESSAGE_500));
+        }
 
     }
 
-    @GetMapping
-    public ResponseEntity<List<ListaReproduccionDTO>> getListasReproduccion(){
-
-        List<ListaReproduccionDTO> listasReproduccionDTOS = listaReproduccionService.traerTodos();
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(listasReproduccionDTOS);
-    }
-
-    // HECHO: Se debe permitir listar las canciones de la lista de reproducción. Indicando con el id la lista de reproducción.
-    @GetMapping("/{idListaReproduccion}")
-    public ResponseEntity<ListaReproduccionDTO> getListaReproduccionPorID(@PathVariable(name = "idListaReproduccion") String id){
-
-        ListaReproduccionDTO listaReproduccionDTO = listaReproduccionService.traerPorId(id);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(listaReproduccionDTO);
-    }
-
-    // TODO: -Falta ordenar lista- Se debe permitir listar las listas de reproducción de un usuario indicando su id. El listado debe estar ordenado por fecha de creación.
+    //Solicitado
     @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<ListaReproduccionDTO>> getListaReproduccionUsuario(@PathVariable(name = "idUsuario") String idUsuario) {
+    @ResponseBody
+    public List<ListaReproduccionUsuarioDTO> buscarListasReproduccion(
+            @PathVariable(name = "idUsuario") String idUsuario){
 
-        List<ListaReproduccionDTO> listasReproduccionDTO = listaReproduccionService.traerListasUsuario(idUsuario);
-
-        return ResponseEntity
-                 .status(HttpStatus.OK)
-                 .body(listasReproduccionDTO);
+        return listaReproduccionService.traerListasUsuario(idUsuario);
     }
 
-    // HECHO: Se debe permitir indicar si la playlist es pública, si se puede repetir la lista al finalizar y si esta se puede reproducir aleatoriamente.
-    @PutMapping("/{idListaReproduccion}")
+    // Endpoint para poder extraer ID de lista de reproduccion
+    // para las pruebas
+    @GetMapping
     @ResponseBody
-    public void modificarEstadoListaReproduccion(
+    public List<ListaReproduccionUsuarioDTO> getListasReproduccion(
+            @RequestParam(name = "nombre", required = false) String nombre){
+
+        return listaReproduccionService.buscarPorNombre(nombre);
+    }
+
+    //Solicitado
+    @GetMapping("/{idListaReproduccion}")
+    @ResponseBody
+    public ListaReproduccionDTO getListaReproduccionPorID(@PathVariable(name = "idListaReproduccion") String id) {
+
+        return listaReproduccionService.traerPorId(id);
+    }
+
+
+    //Solicitado
+    @PutMapping("/{idListaReproduccion}")
+    public ResponseEntity<RespuestaDTO> modificarEstadoListaReproduccion(
             @PathVariable(name = "idListaReproduccion") String idListaReproduccion,
             @RequestParam(name = "aleatorio", required = false) boolean aleatorio,
             @RequestParam(name = "repetir", required = false) boolean repetir,
-            @RequestParam(name = "publica", required = false) boolean publica){
+            @RequestParam(name = "publica", required = false) boolean publica,
+            @RequestBody(required = false) List<String> listaIdCanciones){
 
-        listaReproduccionService.modificarEstadoListaReproduccion(
-                idListaReproduccion, aleatorio,  publica, repetir
+        boolean operacionExitosa = listaReproduccionService.modificarListaReproduccion(
+                idListaReproduccion, aleatorio,  publica, repetir, listaIdCanciones
         );
-    }
 
-    // HECHO: Se debe permitir eliminar y/o agregar canciones a la lista, indicando id de la lista de reproducción e id de la canción.
-    @PutMapping("/{idListaReproduccion}/{idCancion}")
-    public ResponseEntity<RespuestaDTO> modificarListaReproduccion(
-            @PathVariable(name = "idListaReproduccion") String idListaReproduccion,
-            @PathVariable(name = "idCancion") String idCancion){
-
-        listaReproduccionService.modificarListaReproduccion(idListaReproduccion, idCancion);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new RespuestaDTO(ConstantsUtils.STATUS_201,ConstantsUtils.MESSAGE_201));
+        if (operacionExitosa){
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new RespuestaDTO(ConstantsUtils.STATUS_201, ConstantsUtils.MESSAGE_201));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new RespuestaDTO(ConstantsUtils.STATUS_500, ConstantsUtils.MESSAGE_500));
+        }
     }
 }

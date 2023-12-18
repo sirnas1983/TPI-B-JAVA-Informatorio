@@ -1,4 +1,4 @@
-package com.informatorio.java.dto;
+package com.informatorio.java.dto.genero;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.informatorio.java.dto;
+package com.informatorio.java.dto.artista;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

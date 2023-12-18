@@ -1,6 +1,6 @@
 package com.informatorio.java.service.usuario;
 
-import com.informatorio.java.dto.UsuarioDTO;
+import com.informatorio.java.dto.usuario.UsuarioDTO;
 import com.informatorio.java.mapper.UsuarioMapper;
 import com.informatorio.java.model.Auditor;
 import com.informatorio.java.model.Usuario;
@@ -17,27 +17,25 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Autowired
     UsuarioRepository usuarioRepository;
-    @Autowired
-    UsuarioMapper usuarioMapper;
 
     @Override
     public UsuarioDTO traerPorId(String id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(value -> usuarioMapper.mapToUsuarioDTO(value)).orElse(null);
+        return usuario.map(UsuarioMapper::mapToUsuarioDTO).orElse(null);
     }
 
     @Override
     public List<UsuarioDTO> traerTodos() {
-        return usuarioMapper.mapToListaUsuariosDTO(usuarioRepository.findAll());
+        return UsuarioMapper.mapToListaUsuariosDTO(usuarioRepository.findAll());
     }
 
     @Override
     public void modificar(UsuarioDTO usuarioDTO) {
-        usuarioRepository.save(usuarioMapper.mapToUsuario(usuarioDTO));
+        usuarioRepository.save(UsuarioMapper.mapToUsuario(usuarioDTO));
     }
 
     @Override
-    public void cargar(UsuarioDTO usuarioDTO) {
+    public boolean cargar(UsuarioDTO usuarioDTO) {
 
         Usuario usuario = new Usuario();
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
@@ -46,12 +44,12 @@ public class UsuarioServiceImpl implements UsuarioService{
         auditor.setFechaRegistro(LocalDate.now());
         auditor.setFechaModificacion(LocalDate.now());
         usuario.setAuditor(auditor);
-
         usuarioRepository.save(usuario);
+        return true;
     }
 
     @Override
     public void eliminar(UsuarioDTO usuarioDTO) {
-        usuarioRepository.delete(usuarioMapper.mapToUsuario(usuarioDTO));
+        usuarioRepository.delete(UsuarioMapper.mapToUsuario(usuarioDTO));
     }
 }

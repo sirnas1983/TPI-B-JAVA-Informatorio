@@ -13,4 +13,6 @@ public interface ArtistaRepository extends JpaRepository<Artista, String> {
     @Query("SELECT a FROM Artista a WHERE a.nombre = ?1")
     Artista getArtistaPorNombre(String nombre);
 
+
+
 }

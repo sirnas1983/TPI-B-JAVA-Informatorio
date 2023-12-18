@@ -13,7 +13,6 @@ import java.util.List;
 public class ListaReproduccionStatusDTO {
 
     private String id;
-
     private boolean aleatorio;
     private boolean repetir;
     private boolean publica;

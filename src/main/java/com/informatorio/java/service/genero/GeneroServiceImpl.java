@@ -1,6 +1,7 @@
 package com.informatorio.java.service.genero;
 
-import com.informatorio.java.dto.GeneroDTO;
+import com.informatorio.java.dto.genero.GeneroDTO;
+import com.informatorio.java.exceptions.NotFoundException;
 import com.informatorio.java.mapper.GeneroMapper;
 import com.informatorio.java.model.Genero;
 import com.informatorio.java.repository.GeneroRepository;
@@ -15,35 +16,25 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Autowired
     GeneroRepository generoRepository;
-    @Autowired
-    GeneroMapper generoMapper;
 
     @Override
     public GeneroDTO traerPorId(String id) {
         Optional<Genero> genero = generoRepository.findById(id);
         if (genero.isPresent()){
-            return generoMapper.mapToGeneroDTO(genero.get());
+            return GeneroMapper.mapToGeneroDTO(genero.get());
+        } else {
+            throw new NotFoundException("Genero", "Genero id", id);
         }
-        return null;
     }
 
     @Override
     public List<GeneroDTO> traerTodos() {
-        return generoMapper.mapToListaGenerosDTO(generoRepository.findAll());
-    }
-
-    @Override
-    public void modificar(GeneroDTO generoDTO) {
-        generoRepository.save(generoMapper.mapToGenero(generoDTO));
+        return GeneroMapper.mapToListaGenerosDTO(generoRepository.findAll());
     }
 
     @Override
     public void cargar(GeneroDTO generoDTO) {
-        generoRepository.save(generoMapper.mapToGenero(generoDTO));
+        generoRepository.save(GeneroMapper.mapToGenero(generoDTO));
     }
 
-    @Override
-    public void eliminar(GeneroDTO generoDTO) {
-        generoRepository.delete(generoMapper.mapToGenero(generoDTO));
-    }
 }

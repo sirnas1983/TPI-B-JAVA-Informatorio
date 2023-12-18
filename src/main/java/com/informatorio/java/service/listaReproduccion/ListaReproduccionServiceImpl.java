@@ -1,6 +1,8 @@
 package com.informatorio.java.service.listaReproduccion;
 
 import com.informatorio.java.dto.listaReproduccion.ListaReproduccionDTO;
+import com.informatorio.java.dto.listaReproduccion.ListaReproduccionUsuarioDTO;
+import com.informatorio.java.exceptions.NotFoundException;
 import com.informatorio.java.mapper.ListaReproduccionMapper;
 import com.informatorio.java.model.Auditor;
 import com.informatorio.java.model.Cancion;
@@ -25,8 +27,6 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
     @Autowired
     ListaReproduccionRepository listaReproduccionRepository;
     @Autowired
-    ListaReproduccionMapper listaReproduccionMapper;
-    @Autowired
     UsuarioRepository usuarioRepository;
     @Autowired
     CancionRepository cancionRepository;
@@ -35,42 +35,44 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
     @Override
     public ListaReproduccionDTO traerPorId(String id) {
         Optional<ListaReproduccion> listaReproduccion = listaReproduccionRepository.findById(id);
-        return listaReproduccion.map(reproduccion -> listaReproduccionMapper.mapToListaDeReproduccionDTO(reproduccion)).orElse(null);
+        if (listaReproduccion.isPresent()){
+            return ListaReproduccionMapper.mapToListaReproduccionDTO(listaReproduccion.get());
+        } else {
+            throw new NotFoundException("Lista Reproduccion", "Id Lista reproduccion", id);
+        }
     }
 
     @Override
-    public List<ListaReproduccionDTO> traerTodos() {
-        return listaReproduccionMapper.mapToListasDeReproduccionDTO(listaReproduccionRepository.findAll());
+    public List<ListaReproduccionUsuarioDTO> buscarPorNombre(String nombre) {
+        return ListaReproduccionMapper.mapToListasDeReproduccionDTO(listaReproduccionRepository.buscarPorNombre(nombre));
     }
 
     @Override
-    public void modificar(ListaReproduccionDTO listaReproduccionDTO){
-        listaReproduccionRepository.save(listaReproduccionMapper.mapToListaDeReproduccion(listaReproduccionDTO));
+    public List<ListaReproduccionUsuarioDTO> traerListasUsuario(String usuarioId) {
+        return ListaReproduccionMapper.mapToListasDeReproduccionUsuarioDTO(listaReproduccionRepository.buscarListasPorUsuario(usuarioId));
     }
 
     @Override
-    public void cargar(ListaReproduccionDTO listaReproduccionDTO) {
-        listaReproduccionRepository.save(listaReproduccionMapper.mapToListaDeReproduccion(listaReproduccionDTO));
-    }
-
-    @Override
-    public void eliminar(ListaReproduccionDTO listaReproduccionDTO) {
-        listaReproduccionRepository.delete(listaReproduccionMapper.mapToListaDeReproduccion(listaReproduccionDTO));
-    }
-
-    @Override
-    public List<ListaReproduccionDTO> traerListasUsuario(String usuarioId) {
-
-        Optional<Usuario> usuario =  usuarioRepository.findById(usuarioId);
-        return usuario.map(value -> listaReproduccionMapper.mapToListasDeReproduccionDTO(value.getListasDeReproduccion())).orElse(null);
-
-    }
-
-    @Override
-    public void modificarEstadoListaReproduccion(String id, Boolean aleatorio, Boolean publica, Boolean repetir) {
+    public boolean modificarListaReproduccion(String id, Boolean aleatorio, Boolean publica, Boolean repetir, List<String> listaIdCanciones) {
 
         Optional<ListaReproduccion> listaReproduccion = listaReproduccionRepository.findById(id);
         if (listaReproduccion.isPresent()){
+            if(!isNull(listaIdCanciones)){
+                for (String idCancion : listaIdCanciones) {
+                    Optional<Cancion> cancion = cancionRepository.findById(idCancion);
+                    if (cancion.isPresent()) {
+                        List<Cancion> listaCanciones = listaReproduccion.get().getCanciones();
+                        boolean presente = listaCanciones.stream().anyMatch(canc -> canc.getId().equals(idCancion));
+                        if (presente) {
+                            listaCanciones.add(cancion.get());
+                        } else {
+                            listaCanciones.remove(cancion.get());
+                        }
+                    } else {
+                        throw new NotFoundException("Cancion", "Id Cancion", idCancion);
+                    }
+                }
+            }
             if(!isNull(aleatorio)){
                 listaReproduccion.get().setAleatorio(aleatorio);
             }
@@ -84,11 +86,14 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
                 listaReproduccion.get().getAuditor().setFechaModificacion(LocalDate.now());
             }
             listaReproduccionRepository.save(listaReproduccion.get());
+            return true;
+        } else {
+            throw new NotFoundException("Lista Reproduccion", "Id Lista reproduccion", id);
         }
     }
 
     @Override
-    public void nuevaLista(String nombre, List<String> listaIdCanciones, String idUsuario) {
+    public boolean nuevaLista(String nombre, List<String> listaIdCanciones, String idUsuario) {
 
         Optional<Usuario> usuario =  usuarioRepository.findById(idUsuario);
         if(usuario.isPresent()){
@@ -104,23 +109,9 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
             auditor.setFechaModificacion(LocalDate.now());
             listaReproduccion.setAuditor(auditor);
             listaReproduccionRepository.save(listaReproduccion);
-        }
-    }
-
-    @Override
-    public void modificarListaReproduccion(String idListaReproduccion, String idCancion) {
-
-        Optional<ListaReproduccion> listaReproduccion = listaReproduccionRepository.findById(idListaReproduccion);
-        Optional<Cancion> cancion = cancionRepository.findById(idCancion);
-        if(listaReproduccion.isPresent() && cancion.isPresent()){
-            List<Cancion> listaCanciones = listaReproduccion.get().getCanciones();
-            listaCanciones = listaCanciones.stream().filter(canc -> Objects.equals(canc.getId(), idCancion)).toList();
-            if( listaCanciones.isEmpty()){
-                listaCanciones.add(cancion.get());
-            } else {
-                listaCanciones.remove(cancion.get());
-            }
-            listaReproduccionRepository.save(listaReproduccion.get());
+            return true;
+        } else {
+            throw new NotFoundException("Usuario", "Id Usuario", idUsuario);
         }
     }
 

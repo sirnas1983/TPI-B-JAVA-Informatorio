@@ -1,6 +1,6 @@
-package com.informatorio.java.dto;
+package com.informatorio.java.dto.usuario;
 
-import com.informatorio.java.dto.listaReproduccion.ListaReproduccionDTO;
+import com.informatorio.java.dto.listaReproduccion.ListaReproduccionUsuarioDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,5 +14,5 @@ public class UsuarioDTO {
     private String id;
     private String nombre;
     private String nombreUsuario;
-    private List<ListaReproduccionDTO> listasReproduccionDTO = new ArrayList<>();
+    private List<ListaReproduccionUsuarioDTO> listasReproduccionDTO;
 }

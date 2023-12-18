@@ -1,6 +1,6 @@
 package com.informatorio.java.mapper;
 
-import com.informatorio.java.dto.UsuarioDTO;
+import com.informatorio.java.dto.usuario.UsuarioDTO;
 import com.informatorio.java.model.Usuario;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class UsuarioMapper {
 
 
-    public UsuarioDTO mapToUsuarioDTO(Usuario usuario){
+    public static UsuarioDTO mapToUsuarioDTO(Usuario usuario){
 
         ListaReproduccionMapper listaReproduccionMapper = new ListaReproduccionMapper();
 
@@ -20,12 +20,11 @@ public class UsuarioMapper {
         usuarioDTO.setId(usuario.getId());
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
-        usuarioDTO.setListasReproduccionDTO(listaReproduccionMapper.mapToListasDeReproduccionDTO(usuario.getListasDeReproduccion())); // TODO: crear metodo mapToListasReproduccionDTO
-
+        usuarioDTO.setListasReproduccionDTO(listaReproduccionMapper.mapToListasDeReproduccionUsuarioDTO(usuario.getListasDeReproduccion()));
         return usuarioDTO;
     }
 
-    public Usuario mapToUsuario(UsuarioDTO usuarioDTO){
+    public static Usuario mapToUsuario(UsuarioDTO usuarioDTO){
 
         ListaReproduccionMapper listaReproduccionMapper = new ListaReproduccionMapper();
 
@@ -38,13 +37,12 @@ public class UsuarioMapper {
         return usuario;
     }
 
-    public List<UsuarioDTO> mapToListaUsuariosDTO(List<Usuario> listaUsuarios){
+    public static List<UsuarioDTO> mapToListaUsuariosDTO(List<Usuario> listaUsuarios){
         List<UsuarioDTO> listaUsuariosDTO = new ArrayList<>();
         for(Usuario usuario : listaUsuarios){
             listaUsuariosDTO.add(mapToUsuarioDTO(usuario));
         }
         return listaUsuariosDTO;
     }
-
 
 }
