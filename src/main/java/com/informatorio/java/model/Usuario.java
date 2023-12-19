@@ -14,11 +14,14 @@ public class Usuario extends EntidadMusical{
 
     private String nombreUsuario;
 
-    @OneToOne(cascade =CascadeType.ALL)
+    @OneToOne(cascade =CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "auditor_id")
     private Auditor auditor;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     private List<ListaReproduccion> listasDeReproduccion = new ArrayList<>();
 
 }

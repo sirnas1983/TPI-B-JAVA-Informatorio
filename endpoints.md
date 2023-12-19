@@ -5,9 +5,7 @@ metodo: POST
 path: URL/api/v1/usuarios  
 Request body: {
 "nombre" : nombre,  
-"nombreUsuario" : nombre de usuario,  
-"listasReproduccionDTO" : []  
-}
+"nombreUsuario" : nombre de usuario}
 
 ##### Perfil de usuario  
 metodo: GET  
@@ -36,9 +34,10 @@ Request body: {
 {"nombre" : nombreN}  
 ]  
 }  
+nota: en caso de no existir el artista sera agregado automaticamente a la BD
 
 ##### Filtrado de caciones por titulo, artista, genero y/o album
-metodo: PUT  
+metodo: GET  
 path: URL/api/v1/canciones/id de cancion  
 Parametros:  
 titulo (optativo) - Filtra por nombre de cancion  
@@ -85,9 +84,4 @@ id de cancion 2,
 .................,  
 id de cancion n  
 ]   
-nota: en caso de ya existir la cancion en la lista esta sera removida, en caso de no existir sera agregada  
-
-
-
-
-
+nota: en caso de ya existir la cancion en la lista esta sera removida, en caso de no existir sera agregada

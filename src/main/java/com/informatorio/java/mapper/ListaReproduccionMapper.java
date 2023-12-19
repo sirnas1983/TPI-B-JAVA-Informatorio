@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 public class ListaReproduccionMapper {
 
-
     public static ListaReproduccion mapToListaDeReproduccion(ListaReproduccionUsuarioDTO listaReproduccionUsuarioDTO){
 
         ListaReproduccion listaReproduccion = new ListaReproduccion();
@@ -56,7 +55,6 @@ public class ListaReproduccionMapper {
 
     public static ListaReproduccionUsuarioDTO mapToListaDeReproduccionUsuarioDTO(ListaReproduccion listaReproduccion){
 
-
         ListaReproduccionUsuarioDTO listaReproduccionUsuarioDTO = new ListaReproduccionUsuarioDTO();
         listaReproduccionUsuarioDTO.setId(listaReproduccion.getId());
         listaReproduccionUsuarioDTO.setNombre(listaReproduccion.getNombre());
@@ -75,12 +73,11 @@ public class ListaReproduccionMapper {
 
     public static ListaReproduccionDTO mapToListaReproduccionDTO(ListaReproduccion listaReproduccion){
 
-        CancionMapper cancionMapper = new CancionMapper();
 
         ListaReproduccionDTO listaReproduccionDTO = new ListaReproduccionDTO();
         listaReproduccionDTO.setId(listaReproduccion.getId());
         listaReproduccionDTO.setNombre((listaReproduccion.getNombre()));
-        listaReproduccionDTO.setListaCancionesDTO(cancionMapper.mapToListaCancionesDTO(listaReproduccion.getCanciones()));
+        listaReproduccionDTO.setListaCancionesDTO(CancionMapper.mapToListaCancionesDTO(listaReproduccion.getCanciones()));
 
         return listaReproduccionDTO;
     }

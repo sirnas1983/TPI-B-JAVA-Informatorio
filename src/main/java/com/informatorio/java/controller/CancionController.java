@@ -4,6 +4,7 @@ import com.informatorio.java.constants.ConstantsUtils;
 import com.informatorio.java.dto.cancion.CancionDTO;
 import com.informatorio.java.dto.response.RespuestaDTO;
 import com.informatorio.java.service.cancion.CancionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +29,7 @@ public class CancionController {
 
     //Solicitado
     @PostMapping
-    public ResponseEntity<RespuestaDTO> nuevaCancion(@RequestBody CancionDTO cancionDTO){
+    public ResponseEntity<RespuestaDTO> nuevaCancion(@RequestBody @Valid CancionDTO cancionDTO){
 
         boolean operacionExitosa = cancionService.cargar(cancionDTO);
         if (operacionExitosa){
@@ -37,7 +38,7 @@ public class CancionController {
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_201, ConstantsUtils.MESSAGE_201));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_500, ConstantsUtils.MESSAGE_500));
         }
     }

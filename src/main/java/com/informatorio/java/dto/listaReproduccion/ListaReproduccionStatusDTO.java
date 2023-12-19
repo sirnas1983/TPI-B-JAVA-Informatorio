@@ -1,6 +1,7 @@
 package com.informatorio.java.dto.listaReproduccion;
 
 import com.informatorio.java.model.Auditor;
+import jdk.jfr.BooleanFlag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

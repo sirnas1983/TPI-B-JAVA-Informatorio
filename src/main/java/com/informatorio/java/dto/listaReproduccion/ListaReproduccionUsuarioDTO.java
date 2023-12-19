@@ -1,5 +1,6 @@
 package com.informatorio.java.dto.listaReproduccion;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;

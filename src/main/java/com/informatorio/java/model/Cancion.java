@@ -17,14 +17,16 @@ public class Cancion extends EntidadMusical{
 
     private float duracion;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @JoinTable(
             name = "genero_cancion",
             joinColumns = {@JoinColumn(name = "genero_id")},
             inverseJoinColumns = {@JoinColumn(name = "cancion_id")}    )
     private List<Genero> generos = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "artista_id")
     private Artista artista;
 

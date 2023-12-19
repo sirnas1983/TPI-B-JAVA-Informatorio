@@ -6,6 +6,7 @@ import com.informatorio.java.dto.listaReproduccion.ListaReproduccionDTO;
 import com.informatorio.java.dto.listaReproduccion.ListaReproduccionUsuarioDTO;
 import com.informatorio.java.dto.response.RespuestaDTO;
 import com.informatorio.java.service.listaReproduccion.ListaReproduccionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +24,6 @@ public class ListaReproduccionController {
 
     //Solicitado
     @PostMapping("/usuario/{idUsuario}")
-
     public ResponseEntity<RespuestaDTO> crearListaReproduccion(
             @RequestParam String nombre,
             @RequestBody List<String> listaIdCanciones,
@@ -37,7 +37,7 @@ public class ListaReproduccionController {
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_201, ConstantsUtils.MESSAGE_201));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_500, ConstantsUtils.MESSAGE_500));
         }
 
@@ -51,6 +51,7 @@ public class ListaReproduccionController {
 
         return listaReproduccionService.traerListasUsuario(idUsuario);
     }
+
 
     // Endpoint para poder extraer ID de lista de reproduccion
     // para las pruebas
@@ -90,7 +91,7 @@ public class ListaReproduccionController {
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_201, ConstantsUtils.MESSAGE_201));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_500, ConstantsUtils.MESSAGE_500));
         }
     }

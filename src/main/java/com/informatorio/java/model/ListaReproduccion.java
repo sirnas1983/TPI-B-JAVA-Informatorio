@@ -18,7 +18,8 @@ public class ListaReproduccion extends EntidadMusical{
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @JoinTable(name = "cancion_lista_reproduccion",
             joinColumns = {@JoinColumn(name = "cancion_id")},
             inverseJoinColumns = {@JoinColumn(name = "listareproduccion_id")})
@@ -30,7 +31,8 @@ public class ListaReproduccion extends EntidadMusical{
 
     private Boolean publica;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "id_auditor")
     private Auditor auditor;
 

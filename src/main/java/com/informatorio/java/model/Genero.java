@@ -1,9 +1,6 @@
 package com.informatorio.java.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -21,7 +18,8 @@ public class Genero extends EntidadMusical{
     }
 
     @ManyToMany(mappedBy = "generos",
-    cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     private List<Cancion> canciones = new ArrayList<>();
 
 

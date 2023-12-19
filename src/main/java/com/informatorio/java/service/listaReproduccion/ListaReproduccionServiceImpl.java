@@ -44,7 +44,7 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
 
     @Override
     public List<ListaReproduccionUsuarioDTO> buscarPorNombre(String nombre) {
-        return ListaReproduccionMapper.mapToListasDeReproduccionDTO(listaReproduccionRepository.buscarPorNombre(nombre));
+        return ListaReproduccionMapper.mapToListasDeReproduccionUsuarioDTO(listaReproduccionRepository.buscarPorNombre(nombre));
     }
 
     @Override

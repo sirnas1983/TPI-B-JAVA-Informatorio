@@ -1,9 +1,6 @@
 package com.informatorio.java.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,8 @@ import java.util.List;
 public class Artista extends EntidadMusical{
 
     @OneToMany(mappedBy ="artista",
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     private List<Cancion> canciones = new ArrayList<>();
 
 }

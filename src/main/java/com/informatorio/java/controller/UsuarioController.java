@@ -4,6 +4,7 @@ import com.informatorio.java.constants.ConstantsUtils;
 import com.informatorio.java.dto.response.RespuestaDTO;
 import com.informatorio.java.dto.usuario.UsuarioDTO;
 import com.informatorio.java.service.usuario.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +30,6 @@ public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
 
-
     // Endpoint para poder extraer ID de usuario
     // para las pruebas
     @GetMapping
@@ -40,7 +40,7 @@ public class UsuarioController {
 
     //Solicitado
     @PostMapping
-    public ResponseEntity<RespuestaDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity<RespuestaDTO> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO){
         boolean operacionExitosa = usuarioService.cargar(usuarioDTO);
 
         if (operacionExitosa){
@@ -49,7 +49,7 @@ public class UsuarioController {
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_201, ConstantsUtils.MESSAGE_201));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new RespuestaDTO(ConstantsUtils.STATUS_500, ConstantsUtils.MESSAGE_500));
         }
 
@@ -61,16 +61,6 @@ public class UsuarioController {
     // HECHO: Se debe permitir obtener la información del usuario, junto con las listas de reproducción
     // que tenga. De cada playlist solo me interesa su nombre, id y cantidad de canciones.
     public UsuarioDTO verUsuario(@PathVariable String idUsuario){
-
         return usuarioService.traerPorId(idUsuario);
-
     }
-
-
-
-
-
-
-
-
 }
