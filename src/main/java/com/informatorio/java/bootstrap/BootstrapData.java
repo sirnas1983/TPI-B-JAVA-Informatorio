@@ -67,6 +67,7 @@ public class BootstrapData implements CommandLineRunner {
         }
     }
 
+    // TODO: Arreglar persistencia
     @Transactional
     public void cargarListaReproduccion(){
         ListaReproduccion listaReproduccion = new ListaReproduccion();
