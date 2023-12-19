@@ -1,10 +1,7 @@
 package com.informatorio.java.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +17,7 @@ public class Cancion extends EntidadMusical{
 
     private float duracion;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "genero_cancion",
             joinColumns = {@JoinColumn(name = "genero_id")},

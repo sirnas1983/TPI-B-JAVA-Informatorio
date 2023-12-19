@@ -14,14 +14,11 @@ import java.util.List;
 @Getter @Setter
 public class ListaReproduccion extends EntidadMusical{
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-            },fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cancion_lista_reproduccion",
             joinColumns = {@JoinColumn(name = "cancion_id")},
             inverseJoinColumns = {@JoinColumn(name = "listareproduccion_id")})
@@ -33,8 +30,7 @@ public class ListaReproduccion extends EntidadMusical{
 
     private Boolean publica;
 
-    @OneToOne(fetch = FetchType.LAZY,
-              cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_auditor")
     private Auditor auditor;
 
