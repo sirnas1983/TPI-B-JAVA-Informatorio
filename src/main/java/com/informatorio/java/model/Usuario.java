@@ -15,13 +15,13 @@ public class Usuario extends EntidadMusical{
     private String nombreUsuario;
 
     @OneToOne(cascade =CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "auditor_id")
     private Auditor auditor;
 
     @OneToMany(mappedBy = "usuario",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private List<ListaReproduccion> listasDeReproduccion = new ArrayList<>();
 
 }

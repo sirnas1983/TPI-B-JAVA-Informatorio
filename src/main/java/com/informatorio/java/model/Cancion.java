@@ -18,7 +18,7 @@ public class Cancion extends EntidadMusical{
     private float duracion;
 
     @ManyToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinTable(
             name = "genero_cancion",
             joinColumns = {@JoinColumn(name = "genero_id")},
@@ -26,7 +26,7 @@ public class Cancion extends EntidadMusical{
     private List<Genero> generos = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "artista_id")
     private Artista artista;
 

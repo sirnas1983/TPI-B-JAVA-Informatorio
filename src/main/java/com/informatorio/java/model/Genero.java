@@ -19,7 +19,7 @@ public class Genero extends EntidadMusical{
 
     @ManyToMany(mappedBy = "generos",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private List<Cancion> canciones = new ArrayList<>();
 
 

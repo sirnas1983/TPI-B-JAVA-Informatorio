@@ -14,7 +14,7 @@ import java.util.List;
 public class ListaReproduccionDTO {
 
     private String id;
-    @NotBlank(message = "Nombre no puede ser nulo o vacio")
+    @NotBlank(message = "Campo 'nombre' no puede ser nulo o vacio")
     private String nombre;
     @Valid
     private List<CancionDTO> listaCancionesDTO;

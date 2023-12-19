@@ -13,9 +13,9 @@ import java.util.List;
 public class UsuarioDTO {
 
     private String id;
-    @NotBlank(message = "Nombre no puede ser nulo o vacio")
+    @NotBlank(message = "Campo 'usuario' no puede ser nulo o vacio")
     private String nombre;
-    @NotBlank(message = "Nombre de usuario no puede ser nulo o vacio")
+    @NotBlank(message = "Campo 'nombreUsuario' no puede ser nulo o vacio")
     private String nombreUsuario;
     private List<ListaReproduccionUsuarioDTO> listasReproduccionDTO;
 }

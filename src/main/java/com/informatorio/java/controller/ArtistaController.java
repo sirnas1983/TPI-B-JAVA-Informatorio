@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import com.informatorio.java.dto.artista.ArtistaDTO;
 
 @RestController
-@RequestMapping(value = "/api/v1/artistas", produces = {MediaType.APPLICATION_JSON_VALUE})public class ArtistaController {
+@RequestMapping(value = "/api/v1/artistas",
+        produces = {MediaType.APPLICATION_JSON_VALUE})
+public class ArtistaController {
 
     @Autowired
     ArtistaService artistaService;

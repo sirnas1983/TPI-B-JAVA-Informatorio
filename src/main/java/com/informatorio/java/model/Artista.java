@@ -17,7 +17,7 @@ public class Artista extends EntidadMusical{
 
     @OneToMany(mappedBy ="artista",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private List<Cancion> canciones = new ArrayList<>();
 
 }

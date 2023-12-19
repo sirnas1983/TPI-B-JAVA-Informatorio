@@ -19,7 +19,7 @@ public class ListaReproduccion extends EntidadMusical{
     private Usuario usuario;
 
     @ManyToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinTable(name = "cancion_lista_reproduccion",
             joinColumns = {@JoinColumn(name = "cancion_id")},
             inverseJoinColumns = {@JoinColumn(name = "listareproduccion_id")})
