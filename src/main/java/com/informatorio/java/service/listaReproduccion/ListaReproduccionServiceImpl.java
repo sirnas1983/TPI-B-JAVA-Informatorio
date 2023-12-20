@@ -82,7 +82,7 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
             if(!isNull(repetir)){
                 listaReproduccion.get().setRepetir(repetir);
             }
-            if(!isNull(aleatorio) || !isNull(publica) || !isNull(repetir)){
+            if(!isNull(aleatorio) || !isNull(publica) || !isNull(repetir) || !isNull(listaIdCanciones)){
                 listaReproduccion.get().getAuditor().setFechaModificacion(LocalDate.now());
             }
             listaReproduccionRepository.save(listaReproduccion.get());
