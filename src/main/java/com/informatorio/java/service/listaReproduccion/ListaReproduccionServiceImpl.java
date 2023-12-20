@@ -63,7 +63,7 @@ public class ListaReproduccionServiceImpl implements ListaReproduccionService{
                     if (cancion.isPresent()) {
                         List<Cancion> listaCanciones = listaReproduccion.get().getCanciones();
                         boolean presente = listaCanciones.stream().anyMatch(canc -> canc.getId().equals(idCancion));
-                        if (presente) {
+                        if (!presente) {
                             listaCanciones.add(cancion.get());
                         } else {
                             listaCanciones.remove(cancion.get());
